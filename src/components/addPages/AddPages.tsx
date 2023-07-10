@@ -7,8 +7,10 @@ const AddPages: React.FC<AddPagesProps> = ({ isChecked }) => {
     const [languages, setLanguages] = useState(1);
 
 
-    const className = !isChecked  ? "d-none" : "border border-2 border-black p-4 rounded-2 "
-    
+    const className = isChecked !== true ? "d-none" : "border border-2 border-black p-4 rounded-2 "
+    //     const handlePagesChange = (event: Event, ) => { setPages(even) }
+    //     const handleLanguageChange = () => { setPages(pages + 1) }
+
     // if (isChecked) {
     //     setClassName("border border-2 border-black p-4 rounded-2 ")
     // }

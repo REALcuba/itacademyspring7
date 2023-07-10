@@ -1,32 +1,32 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Input from "../../components/input/Input";
+import AddPages from "../../components/addPages/AddPages";
 
 type MainBoardProps = {
-    services: { project: string, price: number }[]
+    services: {
+        project: string;
+        price: number;
+    }[];
+};
 
-}
+export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
+    const [total, setTotal] = useState(0);
+    const [isCheckArr, setIsCheckArr] = useState<boolean[]>(new Array(services.length).fill(false));
+    const [isChecked, setIsChecked] = useState(false);
 
-export const MainBoard: React.FC<MainBoardProps> = (services) => {
-    // const [isCheck, setIsCheck] = useState(false)
-    const [total, setTotal] = useState(0)
-
-    const [isCheckArr, setIsCheckArr] = useState(new Array(services.services.length).fill(false))
-    // const [index, setIndex] = useState(0);
-
-    const handleOnChange = (position: number) => {
-
+    const handleOnChange = (position: number): void => {
         const updatedCheckedState: boolean[] = isCheckArr.map((item, index) => {
+            return index === position ? !item : item;
+        });
 
-            return index === position ? !item : item
-        }
-        );
         setIsCheckArr(updatedCheckedState);
-        console.log(isCheckArr[position]);
+        setIsChecked(updatedCheckedState[position]);
+
         let totalPrice = 0;
 
         updatedCheckedState.forEach((currentState: boolean, index) => {
             if (currentState === true) {
-                totalPrice += services.services[index].price;
+                totalPrice += services[index].price;
             }
         });
 
@@ -35,24 +35,21 @@ export const MainBoard: React.FC<MainBoardProps> = (services) => {
 
     return (
         <>
-            <form >
-                <label >
-                    <strong>Que quieres hacer?</strong>
-                    {services.services.map(({ project, price }, index) => {
-
-                        return (
+            <form>
+                <label>
+                    <strong>¿Qué quieres hacer?</strong>
+                    {services.map(({ project, price }, index) => (
                         <div key={index}>
-                                {<Input handleOnChange={handleOnChange} index={index} />}
+                            <div>
+                                <Input handleOnChange={handleOnChange} index={index} isChecked={isCheckArr[index]} checkedArr={isCheckArr} />
                                 {project} ({price} €)
-                            </div>)
-                    }
-                    )
-                    }
+                            </div>
+                            {isCheckArr[index] && <AddPages isChecked={isChecked} />}
+                        </div>
+                    ))}
                 </label>
             </form>
-            <div>Price: {total}€</div>
+            <div>Precio: {total}€</div>
         </>
-    )
-}
-
-
+    );
+};

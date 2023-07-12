@@ -1,22 +1,29 @@
-// import { useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-// import Welcome from "./pages/welcome/Welcome"
+
+//components
+import Welcome from "./pages/welcome/Welcome"
 import { MainBoard } from "./pages/MainBoard/MainBoard"
 
+//array of services
 import { Services } from './assets/Services'
 // import './App.css'
 
 const App: React.FC = () => {
-// const [count, setCount] = useState(0)
+  const [isLogin, setIsLogin] = useState(false)
 
+  const handleLoginBtn = () => setIsLogin(true)
 
-  return (
+  return ( 
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Welcome />} /> */}
-        <Route path="/" element={<MainBoard services={Services} />}>
-
-        </Route>
+        {isLogin ? (
+          <Route path="/" element={<MainBoard services={Services} />} />
+        ) : (
+          <>
+            <Route path="/" element={<Welcome isLogin={isLogin} handleLoginBtn={handleLoginBtn} />} />
+          </>
+        )}
       </Routes>
 
     </BrowserRouter>

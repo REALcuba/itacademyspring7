@@ -5,9 +5,6 @@ import { useLocalStorage } from '../../components/customHooks/UseLocalStorage'
 import DataInputs from "../../components/dataInputs/DataInputs";
 import CreateProject from "../../components/createProject/CreateProject";
 import { type Project } from "../../components/types/Types";
-// import { ProjectData } from "../../assets/ProjectData";
-// import CreateProject from "../../components/budgetList/CreateProject";
-// import { Services } from "../../assets/Services";
 
 type MainBoardProps = {
     services: {
@@ -31,7 +28,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const [getClient, setClient] = useState("")
     const [projectArr, setProjectArr] = useState<Project[]>([])
     const [project, setProject] = useState<Project>()
-    // const [serviceName, setServiceName] = useState('')
+    // const [serviceNameArr, setServiceNameArr] = useState<(string | null)[]>([])
 
     const updatedPagesArr = [...pagesArr]
     const updatedLanguagesArr = [...languagesArr];
@@ -47,9 +44,25 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                 }
             }
             setTotal(totalPrice);
+            // if (isCheckArr[index]) {
+            //     const getServiceNameArr = [...serviceName]
+            //     setServiceName(services[index].project)
+            //     getServiceNameArr.push(serviceName)
+            //     setServiceNameArr(getServiceNameArr)
+
+            // }
+
         }
     }
+    // const getServiceName = () => {
+    //     for (const index in services) {
+    //         if (isCheckArr[index]) {
+    //             setServiceName(services[index].project)
 
+    //         }
+    //     }
+    // }
+    // getServiceName()
     const handleAddPageBtn = (position: number): void => {
         console.log('suma');
         console.log(pages);
@@ -72,7 +85,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const handleSubstractPageBtn = (position: number): void => {
         console.log('resta');
         if (updatedPagesArr[position] > 1) {
-            console.log('suma');
             console.log(pages);
             updatedPagesArr[position] = updatedPagesArr[position] - 1;
             // setPagesArr(updatedPagesArr);
@@ -85,12 +97,12 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const handleSubstractLanguageBtn = (position: number): void => {
         console.log('resta');
         if (updatedLanguagesArr[position] > 1) {
-            console.log('suma');
             // setLanguages(languages - 1);
             console.log(languages);
             updatedLanguagesArr[position] = updatedLanguagesArr[position] - 1;
-            setLanguagesArr(updatedLanguagesArr);
+            setLanguagesArr([...updatedLanguagesArr]);
             setIsLocaleLanguagesArr(updatedLanguagesArr);
+            setLanguages(updatedLanguagesArr[position])
         }
     }
     const handleInputPagesChange = (e: ChangeEvent<HTMLInputElement>, position: number): void => {
@@ -147,8 +159,23 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const handlerGetClient = (e: React.ChangeEvent<HTMLInputElement>) => setClient(e.target.value)
 
 
-    const handlerGetProjectData = () => {
 
+    // const newServiceArr: string[] = []
+    const getServiceNameArr: (string | null)[] = services.map((service, index) => {
+        // const newServiceArr = (service, index) => {
+        if (isCheckArr[index]) {
+            // newServiceArr.push(service.project)
+            return service.project;
+        }
+        // }
+        return null; // O cualquier valor que desees para los elementos que no están marcados como checked
+    }).filter(Boolean)
+    console.log(getServiceNameArr);
+    // setServiceNameArr(newServiceArr);
+    const handlerGetProjectData = () => {
+        // setServiceNameArr(prevServiceName => [...prevServiceName, service.project])
+        // setServiceNameArr(newServiceArr);
+        // { isChecked && setServiceName(services[index].project) }
         const updatedProject: Project = {
             id: crypto.randomUUID(),
             projectName: getProjectName,
@@ -156,19 +183,14 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
             totalPages: pages,
             totalLanguages: languages,
             totalPrice: total,
-            service: "serviceName"
+            service: getServiceNameArr
         }
-        const cloneProjectArr = [...projectArr]
-        cloneProjectArr.push(updatedProject)
 
-        // setProjectArr((prevCloneProjectArr) => [...prevCloneProjectArr, cloneProjectArr])
-
-        // const updatedProjectArr = projectArr.map((project) =>
-        // project.id === updatedProject.id ? updatedProject : project
-        // );
         console.log(updatedProject);
 
         setProject(updatedProject);
+        // setProjectArr(projectArr);
+        setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
 
     }
     //
@@ -253,19 +275,17 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         setPagesArr(isLocalePageArr);
         setLanguagesArr(isLocaleLanguagesArr);
         setProjectArr(projectArr);
-        setProject(project);
 
 
     }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr, pages, languages, project])
 
     return (
-        <section className="d-flex gap-md-5 ">
+        <section className="d-flex gap-md-5 align-items-center">
             <form >
                 <label >
                     <strong>Que quieres hacer?</strong>
 
                     {services.map(({ project, price }, index) => {
-                        // setServiceName(project)
                         return <div key={index}>
                             <div>
                                 {<Input
@@ -275,7 +295,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                                 />}
                                 {project} ({price} €)
                             </div>
-                            {isCheckArr[index] && <div className="d-flex justify-content-between">
+                            {isCheckArr[index] && <div className="d-flex align-items-center justify-content-between">
                                 <AddPages
                                     isChecked={isChecked}
                                     valuePages={pagesArr[index]}
@@ -294,13 +314,13 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                     )}
 
                     <DataInputs handlerGetProjectName={handlerGetProjectName} handlerGetClient={handlerGetClient} getProjectName={getProjectName} getClient={getClient} />
+                    <button type="button" className="btn mt-2 btn-primary" onClick={handlerGetProjectData}>Submit</button>
                 </label>
             </form>
-            <div className="d-flex justify-content-between align-items-center flex-column">
-                <CreateProject project={project} />
-                <div>Precio: {total}€</div>
-                <button onClick={handlerGetProjectData}>Submit</button>
-            </div>
+            {isChecked && <aside className="align-items-center border d-flex flex-column  overflow-y-scroll justify-content-between project_data_div">
+                <CreateProject projectArr={projectArr} />
+                {/* <div>Precio: {total}€</div> */}
+            </aside>}
         </section>
     )
 }

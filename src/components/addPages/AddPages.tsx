@@ -25,7 +25,7 @@ const AddPages: React.FC<AddPagesProps> = ({
     handleSubstractPageBtn,
     handleAddLanguageBtn,
     handleSubstractLanguageBtn }) => {
-    const className = isChecked !== true ? "d-none" : "border border-2 p-4 rounded-2 "
+    const className = isChecked !== true ? "d-none" : "border border-2 d-grid gap-2 p-4 rounded-2"
 
     console.log(`valuepage:${valuePages}`);
 
@@ -33,15 +33,15 @@ const AddPages: React.FC<AddPagesProps> = ({
 
         <div className={className}>
 
-            <div className='d-flex justify-content-between'>
+            <div className='align-items-center d-flex gap-1 justify-content-between'>
                 <span>Número de páginas:</span>
-                <button type="button" className='btn btn-primary btn-sm' onClick={() => handleAddPageBtn(index)}>+</button>
+                <button type="button" className='btn btn-primary btn-sm align-items-center' onClick={() => handleAddPageBtn(index)}>+</button>
                 <input type="text" className='w-25' value={valuePages} onChange={(e) => handleInputPagesChange(e, index)} />
                 <button type="button" className='btn btn-primary btn-sm' onClick={() => handleSubstractPageBtn(index)}>-</button>
                 <InfoPagesBtn pages={valuePages} />
             </div>
 
-            <div className='d-flex justify-content-between'>
+            <div className='align-items-center d-flex gap-1 justify-content-between'>
                 <span>Número de idiomas:</span>
                 <button type="button" className='btn btn-primary btn-sm' onClick={() => handleAddLanguageBtn(index)}>+</button>
                 <input type="text" value={valueLanguages} className='w-25' onChange={(e) => handleInputLanguagesChange(e, index)} />

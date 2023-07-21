@@ -1,30 +1,37 @@
 import { type Project } from '../types/Types';
+import "./styles.css"
 
 type CreateProjectProps = {
-    project?: Project;
+    projectArr: Project[];
 }
 
-const CreateProject: React.FC<CreateProjectProps> = ({ project }) => {
+const CreateProject: React.FC<CreateProjectProps> = ({ projectArr }) => {
 
-    console.log(project)
+    console.log(projectArr);
 
     return (
-        <>
-            <aside>
-                {project && <div className='container border border-2' key={project.id}>
-                    <div >
-                        <div className='d-flex justify-content-between flex-column'>
-                            <span>Client Name : {project.clientName}</span>
-                            <span>Project Name : {project.projectName}</span>
-                            <span>Service Name : {project.service}</span>
-                            <span>Total de página(s) : {project.totalPages}</span>
-                            <span>Total de idiomas : {project.totalLanguages}</span>
-                        </div>
 
-                    </div>
-                </div>}
-            </aside>
-        </>
+        <div className=' mt-2 flex-column project_data_div'>
+            {projectArr.map(data => {
+
+
+                return <div className='container align-items-center border-bottom row' key={data.id}>
+                    {/* <div > */}
+                    {/* <div className='d-flex justify-content-between fst-italic flex-column m-2 '> */}
+                    <div className='col-4'>Client:<span> {data.clientName}</span></div>
+                    <div className='col-6'>Project:<span> {data.projectName}</span></div>
+                    <div className='col-12'>Service:<span> {projectArr && data.service.join(', ')}</span></div>
+                    <div className='col-4'>Página(s):<span> {data.totalPages}</span></div>
+                    <div className='col-4'>Idiomas:<span> {data.totalLanguages}</span></div>
+                    <div className='col-4'>Precio:<span> {data.totalPrice}</span></div>
+                    {/* </div> */}
+
+                    {/* </div> */}
+                </div>
+            })}
+
+        </div>
+
     )
 }
 

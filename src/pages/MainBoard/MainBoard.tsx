@@ -176,6 +176,8 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         // setServiceNameArr(prevServiceName => [...prevServiceName, service.project])
         // setServiceNameArr(newServiceArr);
         // { isChecked && setServiceName(services[index].project) }
+        const getDate = new Date().toUTCString();
+
         const updatedProject: Project = {
             id: crypto.randomUUID(),
             projectName: getProjectName,
@@ -183,7 +185,8 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
             totalPages: pages,
             totalLanguages: languages,
             totalPrice: total,
-            service: getServiceNameArr
+            service: getServiceNameArr,
+            date: getDate
         }
 
         console.log(updatedProject);
@@ -280,14 +283,14 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr, pages, languages, project])
 
     return (
-        <section className="d-flex gap-md-5 align-items-center">
+        <section className="d-flex gap-md-5 align-items-center fst-italic">
             <form >
                 <label >
                     <strong>Que quieres hacer?</strong>
 
                     {services.map(({ project, price }, index) => {
                         return <div key={index}>
-                            <div>
+                            <div className="container-md">
                                 {<Input
                                     handleOnChange={(index) => handleInputOnChange(index)}
                                     index={index}

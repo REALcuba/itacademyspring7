@@ -6,5 +6,5 @@ export type Project = {
     totalPages: number,
     totalLanguages: number,
     totalPrice: number,
-
+    date: string
 }

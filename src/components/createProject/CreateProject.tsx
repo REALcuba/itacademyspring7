@@ -8,13 +8,10 @@ type CreateProjectProps = {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ projectArr }) => {
-    console.log(projectArr);
     const [filteredProjectArr, setFilteredProjectArr] = useState<Project[]>(projectArr)
-    console.log(`test filter`, filteredProjectArr);
 
 
     const handlerSortProjects = () => {
-        setFilteredProjectArr(projectArr)
         const cloneProjectArr = [...filteredProjectArr]
 
         cloneProjectArr.sort((projectA, projectB) => projectA.clientName.localeCompare(projectB.clientName))
@@ -22,14 +19,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr }) => {
         setFilteredProjectArr(cloneProjectArr)
         return cloneProjectArr
     }
+    const handlerRessetBtn = () => { setFilteredProjectArr(projectArr) }
     useEffect(() => {
         setFilteredProjectArr(projectArr)
     }, [projectArr])
-    //     setFilterdProjectArr(cloneProjectArr)
     return (
         <>
             <div className='align-items-center container-md d-flex justify-content-between mt-1'>
-                <Filters handlerSortProjects={handlerSortProjects} />
+                <Filters handlerSortProjects={handlerSortProjects} handlerRessetBtn={handlerRessetBtn} />
             </div>
             <div className=' mt-2 flex-column project_data_div overflow-y-scroll'>
 

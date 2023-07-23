@@ -28,7 +28,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const [getClient, setClient] = useState("")
     const [projectArr, setProjectArr] = useState<Project[]>([])
     const [project, setProject] = useState<Project>()
-    // const [serviceNameArr, setServiceNameArr] = useState<(string | null)[]>([])
 
     const updatedPagesArr = [...pagesArr]
     const updatedLanguagesArr = [...languagesArr];
@@ -44,25 +43,10 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                 }
             }
             setTotal(totalPrice);
-            // if (isCheckArr[index]) {
-            //     const getServiceNameArr = [...serviceName]
-            //     setServiceName(services[index].project)
-            //     getServiceNameArr.push(serviceName)
-            //     setServiceNameArr(getServiceNameArr)
-
-            // }
 
         }
     }
-    // const getServiceName = () => {
-    //     for (const index in services) {
-    //         if (isCheckArr[index]) {
-    //             setServiceName(services[index].project)
 
-    //         }
-    //     }
-    // }
-    // getServiceName()
     const handleAddPageBtn = (position: number): void => {
         console.log('suma');
         console.log(pages);
@@ -156,26 +140,18 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     // };
     const handlerGetProjectName = (e: React.ChangeEvent<HTMLInputElement>) => setProyectName(e.target.value)
 
-    const handlerGetClient = (e: React.ChangeEvent<HTMLInputElement>) => setClient(e.target.value)
+    const handlerGetClient = (e: React.ChangeEvent<HTMLInputElement>) => setClient(e.target.value)    
 
-
-
-    // const newServiceArr: string[] = []
     const getServiceNameArr: (string | null)[] = services.map((service, index) => {
-        // const newServiceArr = (service, index) => {
         if (isCheckArr[index]) {
-            // newServiceArr.push(service.project)
             return service.project;
         }
         // }
         return null; // O cualquier valor que desees para los elementos que no están marcados como checked
     }).filter(Boolean)
-    // console.log(getServiceNameArr);
-    // setServiceNameArr(newServiceArr);
+
     const handlerGetProjectData = () => {
-        // setServiceNameArr(prevServiceName => [...prevServiceName, service.project])
-        // setServiceNameArr(newServiceArr);
-        // { isChecked && setServiceName(services[index].project) }
+
         const getDate = new Date().toUTCString();
 
         const updatedProject: Project = {
@@ -190,9 +166,9 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         }
 
         console.log(updatedProject);
-
+        setClient('')
+        setProyectName('')
         setProject(updatedProject);
-        // setProjectArr(projectArr);
         setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
 
     }
@@ -269,9 +245,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     //     }
     // };
     const handlerClickProjectData = () => isCheckArr.some(value => value === true) ? handlerGetProjectData() : null 
-
-    // console.log(project);
-
 
     useEffect(() => {
         calculateTotal(pagesArr, languagesArr, isCheckArr, services);

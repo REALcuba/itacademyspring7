@@ -170,7 +170,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         // }
         return null; // O cualquier valor que desees para los elementos que no están marcados como checked
     }).filter(Boolean)
-    console.log(getServiceNameArr);
+    // console.log(getServiceNameArr);
     // setServiceNameArr(newServiceArr);
     const handlerGetProjectData = () => {
         // setServiceNameArr(prevServiceName => [...prevServiceName, service.project])
@@ -268,9 +268,9 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     //         setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
     //     }
     // };
+    const handlerClickProjectData = () => isCheckArr.some(value => value === true) ? handlerGetProjectData() : null 
 
-
-    console.log(project);
+    // console.log(project);
 
 
     useEffect(() => {
@@ -317,10 +317,10 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                     )}
 
                     <DataInputs handlerGetProjectName={handlerGetProjectName} handlerGetClient={handlerGetClient} getProjectName={getProjectName} getClient={getClient} />
-                    <button type="button" className="btn mt-2 btn-primary" onClick={handlerGetProjectData}>Submit</button>
+                    <button type="button" className="btn mt-2 btn-primary" onClick={handlerClickProjectData}> Submit</button>
                 </label>
             </form>
-            {isChecked && <aside className="align-items-center border d-flex flex-column  overflow-y-scroll justify-content-between project_data_div">
+            {isChecked && <aside className="align-items-center border d-flex flex-column justify-content-between project_data_div">
                 <CreateProject projectArr={projectArr} />
                 {/* <div>Precio: {total}€</div> */}
             </aside>}

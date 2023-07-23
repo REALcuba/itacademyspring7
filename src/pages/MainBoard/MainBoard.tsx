@@ -4,15 +4,15 @@ import AddPages from "../../components/addPages/AddPages";
 import { useLocalStorage } from '../../components/customHooks/UseLocalStorage'
 import DataInputs from "../../components/dataInputs/DataInputs";
 import CreateProject from "../../components/createProject/CreateProject";
-import { type Project } from "../../components/types/Types";
+import { type Project, type MainBoardProps } from "../../components/types/Types";
 
-type MainBoardProps = {
-    services: {
-        project: string;
-        price: number;
-    }[];
+// type MainBoardProps = {
+//     services: {
+//         project: string;
+//         price: number;
+//     }[];
 
-}
+// }
 
 export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const [total, setTotal] = useState(0)
@@ -27,7 +27,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const [getProjectName, setProyectName] = useState("")
     const [getClient, setClient] = useState("")
     const [projectArr, setProjectArr] = useState<Project[]>([])
-    const [project, setProject] = useState<Project>()
 
     const updatedPagesArr = [...pagesArr]
     const updatedLanguagesArr = [...languagesArr];
@@ -71,7 +70,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         if (updatedPagesArr[position] > 1) {
             console.log(pages);
             updatedPagesArr[position] = updatedPagesArr[position] - 1;
-            // setPagesArr(updatedPagesArr);
             setPagesArr([...updatedPagesArr])
             setIsLocalePageArr(updatedPagesArr);
             setPages(updatedPagesArr[position])
@@ -93,20 +91,16 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         updatedPagesArr[position] = parseInt(e.target.value);
         setPagesArr([...updatedPagesArr]);
         setPages(updatedPagesArr[position])
-        // setPages(updatedPagesArr[position])
     };
     const handleInputLanguagesChange = (e: ChangeEvent<HTMLInputElement>, position: number): void => {
-
         updatedLanguagesArr[position] = parseInt(e.target.value)
         setLanguagesArr([...updatedLanguagesArr])
         setLanguages(updatedLanguagesArr[position])
-
     }
     
     const handleInputOnChange = (position: number): void => {
         const updatedCheckedState: boolean[] = isCheckArr.map((item, index) =>
-            index === position ? !item : item
-        );
+            index === position ? !item : item);
         setIsCheckArr(updatedCheckedState);
 
         updatedCheckedState.forEach((currentState: boolean, index) => {
@@ -150,9 +144,8 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         return null; // O cualquier valor que desees para los elementos que no están marcados como checked
     }).filter(Boolean)
 
-    const handlerGetProjectData = () => {
-
-        const getDate = new Date().toUTCString();
+    const getProjectData = () => {
+        const getDate = new Date().toLocaleString();
 
         const updatedProject: Project = {
             id: crypto.randomUUID(),
@@ -168,7 +161,6 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         console.log(updatedProject);
         setClient('')
         setProyectName('')
-        setProject(updatedProject);
         setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
 
     }
@@ -244,7 +236,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     //         setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
     //     }
     // };
-    const handlerClickProjectData = () => isCheckArr.some(value => value === true) ? handlerGetProjectData() : null 
+    const handlerClickProjectData = () => isCheckArr.some(value => value === true) ? getProjectData() : null 
 
     useEffect(() => {
         calculateTotal(pagesArr, languagesArr, isCheckArr, services);
@@ -253,7 +245,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         setProjectArr(projectArr);
 
 
-    }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr, pages, languages, project])
+    }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr])
 
     return (
         <section className="d-flex gap-md-5 align-items-center fst-italic">

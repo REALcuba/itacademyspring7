@@ -3,7 +3,9 @@ export type MainBoardProps = {
         project: string;
         price: number;
     }[];
-
+}
+export type CreateProjectProps = {
+    projectArr: Project[];
 }
 export type Project = {
     id?: `${string}-${string}-${string}-${string}-${string}`
@@ -17,6 +19,12 @@ export type Project = {
 };
 export type FiltersProps = {
     handlerSortProjects: () => void,
-    handlerRessetBtn: () => void,
+    handlerResetBtn: () => void,
     handlerSortByDateFilterBtn: () => void,
+    // handlerSearchInput:()=>void,
+    handlerInputSearcValue:(e:React.ChangeEvent<HTMLInputElement>)=>void
+}
+export type CreateProjectProps = {
+    projectArr: Project[];
+    // isLocaleProjectArr: Project[]
 }

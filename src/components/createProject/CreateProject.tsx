@@ -1,16 +1,22 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Filters from '../filterBtns/FilterBtns';
-import { type Project } from '../types/Types';
+import { Project, CreateProjectProps } from '../types/Types';
 
-type CreateProjectProps = {
-    projectArr: Project[];
-}
 
-const CreateProject: React.FC<CreateProjectProps> = ({ projectArr }) => {
-    const [filteredProjectArr, setFilteredProjectArr] = useState<Project[]>(projectArr)
+const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
+    const [filteredProjectArr, setFilteredProjectArr] = useState<Project[]>(projectArr);
+
+    const [searchValue, setSearchValue] = useState<string>('');
+    // console.log(value);
 
 
     const cloneProjectArr = [...filteredProjectArr]
+    const handlerInputSearcValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value)
+        setFilteredProjectArr(cloneProjectArr.filter(project => project.projectName.toLowerCase().includes(searchValue.toLowerCase())))
+
+    }
+
     const handlerSortProjects = () => {
 
         cloneProjectArr.sort((projectA, projectB) => projectA.clientName.localeCompare(projectB.clientName))
@@ -18,21 +24,20 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr }) => {
         setFilteredProjectArr(cloneProjectArr)
         return cloneProjectArr
     }
-    const handlerRessetBtn = () => setFilteredProjectArr(projectArr);
+    const handlerResetBtn = () => setFilteredProjectArr(projectArr);
+
     const handlerSortByDateFilterBtn = () => {
         cloneProjectArr.sort((projectA, projectB) => {
             return projectB.date.localeCompare(projectA.date)
-            //  cloneProjectArr
         })
-        setFilteredProjectArr(cloneProjectArr)
     }
     useEffect(() => {
         setFilteredProjectArr(projectArr)
-    }, [projectArr])
+    }, [projectArr, setFilteredProjectArr])
     return (
         <>
-            <div className='align-items-center container-md d-flex justify-content-between mt-1'>
-                <Filters handlerSortProjects={handlerSortProjects} handlerRessetBtn={handlerRessetBtn} handlerSortByDateFilterBtn={handlerSortByDateFilterBtn} />
+            <div className='align-items-md-center container-md d-flex justify-content-center gap-2 mt-1'>
+                <Filters handlerSortProjects={handlerSortProjects} handlerResetBtn={handlerResetBtn} handlerSortByDateFilterBtn={handlerSortByDateFilterBtn} handlerInputSearcValue={(e: ChangeEvent<HTMLInputElement>) => handlerInputSearcValue(e)} />
             </div>
             <div className=' mt-2 flex-column project_data_div overflow-y-scroll'>
 

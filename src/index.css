@@ -88,3 +88,10 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+.searchInput{
+  background-image: url("./assets/icons/search.svg");
+  background-position: right;
+  background-size: 39px 39px;
+  background-repeat: no-repeat;
+
+}

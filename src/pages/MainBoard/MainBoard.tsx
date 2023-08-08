@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import AddPages from "../../components/addPages/AddPages";
 import { UseLocaleStorage } from '../../components/customHooks/UseLocaleStorage'
@@ -8,6 +9,7 @@ import { type Project, type MainBoardProps } from "../../components/types/Types"
 
 
 export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
+    // const navigate = useNavigate()
     const [total, setTotal] = useState(0)
     const [isCheckArr, setIsCheckArr] = useState(new Array(services.length).fill(false))
     const [isChecked, setIsChecked] = useState(false);
@@ -17,7 +19,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     const [languages, setLanguages] = useState<number>(1)
     const [isLocalePageArr, setIsLocalePageArr] = UseLocaleStorage('isLocalePageArr', new Array(services.length).fill(1))
     const [isLocaleLanguagesArr, setIsLocaleLanguagesArr] = UseLocaleStorage('isLocaleLanguagesArr', new Array(services.length).fill(1))
-    const [getProjectName, setProyectName] = useState("")
+    const [getProjectName, setProjectName] = useState("")
     const [getClient, setClient] = useState("")
     const [projectArr, setProjectArr] = useState<Project[]>([])
     const [isLocaleProjectArr, setIsLocaleProjectArr] = UseLocaleStorage('isLocaleProjectArr', projectArr)
@@ -104,7 +106,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         });
     };
 
-    const handlerGetProjectName = (e: React.ChangeEvent<HTMLInputElement>) => setProyectName(e.target.value)
+    const handlerGetProjectName = (e: React.ChangeEvent<HTMLInputElement>) => setProjectName(e.target.value)
 
     const handlerGetClient = (e: React.ChangeEvent<HTMLInputElement>) => setClient(e.target.value)    
 
@@ -133,25 +135,37 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         console.log(updatedProject);
         updatedProjectArr.push(updatedProject)
         setClient('')
-        setProyectName('')
+        setProjectName('')
         setProjectArr(prevProjectArr => [...prevProjectArr, updatedProject]);
         setIsLocaleProjectArr((prevLocaleProjectArr: Project[]) => [...prevLocaleProjectArr, updatedProject]);
-        // setIsLocaleProjectArr( projectArr);
-        // setIsLocaleProjectArr(UseLocaleStorage('isLocaleProjectArr', projectArr));
+       
     }
 
     const handlerClickProjectData = () => {
         isCheckArr.some(value => value === true) ? getProjectData() : null
-    // setIsLocaleProjectArr(isLocaleProjectArr)
 
     }
-
+    // // // Function to update the URL based on the selected inputs
+    // const updateURL = useCallback(() => {
+    //     const queryParams = [];
+    //     for (let i = 0; i < isCheckArr.length; i++) {
+    //         if (isCheckArr[i]) {
+    //             queryParams.push(`page${i + 1}=${pagesArr[i]}&lang${i + 1}=${languagesArr[i]}&services=${getServiceNameArr}&client=${getClient}`);
+    //         }
+    //     }
+    //     const queryString = queryParams.join("&");
+    //     navigate(`/main-board?${queryString}`);
+    // }, [navigate, isCheckArr, pagesArr, languagesArr, getServiceNameArr, getClient]);
+    // useEffect(() => {
+    //     updateURL()
+    // }, [updateURL])
     useEffect(() => {
         calculateTotal(pagesArr, languagesArr, isCheckArr, services);
         setPagesArr(isLocalePageArr);
         setLanguagesArr(isLocaleLanguagesArr);
         setProjectArr(projectArr);
-        setIsLocaleProjectArr(isLocaleProjectArr)
+        setIsLocaleProjectArr(isLocaleProjectArr);
+
 
     }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr, setIsLocaleProjectArr, isLocaleProjectArr])
 
@@ -193,7 +207,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
                 </label>
             </form>
             {<aside className="align-items-center border d-flex flex-column justify-content-between project_data_div">
-                <CreateProject projectArr={projectArr} />
+                <CreateProject projectArr={isLocaleProjectArr} />
                 {/* <div>Precio: {total}€</div> */}
             </aside>}
         </section>

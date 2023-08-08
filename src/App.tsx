@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 //components
 import Welcome from "./pages/welcome/Welcome"
 import { MainBoard } from "./pages/MainBoard/MainBoard"
+import ServiceBudgetPage from './pages/serviceBudget/ServiceBudgetPage'
 
 //array of services
 import { Services } from './assets/Services'
@@ -18,10 +19,13 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         {isLogin ? (
-          <Route path="/" element={<MainBoard services={Services} />} />
-        ) : (           
-            <Route path="/" element={<Welcome isLogin={isLogin} handleLoginBtn={handleLoginBtn} />} />
+          <Route path="/main-board" element={<MainBoard services={Services} />} />
+        ) : ( 
+
+            <Route path="/main-board" element={<Welcome isLogin={isLogin} handleLoginBtn={handleLoginBtn} />} />
+
         )}
+        <Route path="/service-budget" element={<ServiceBudgetPage />} />
       </Routes>
     </BrowserRouter>
   )

@@ -3,8 +3,6 @@ import Filters from '../filterBtns/FilterBtns';
 import { Project, CreateProjectProps } from '../types/Types';
 import { useNavigate } from 'react-router-dom';
 
-// import ServiceBudget from '../../pages/serviceBudget/ServiceBudget';
-
 
 const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
     const navigate = useNavigate()
@@ -35,27 +33,27 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
             return projectB.date.localeCompare(projectA.date)
         })
     }
-    // // Function to update the URL based on the selected inputs
-    // const updateURL = useCallback(() => {
-    //     const queryParams = [];
-    //     // for (let i = 0; i < isCheckArr.length; i++) {
-    //     //     if (isCheckArr[i]) {
-    //     queryParams.push(`page${data. + 1}=${pagesArr[i]}&lang${i + 1}=${languagesArr[i]}&services=${getServiceNameArr}&client=${getClient}`);
-    //     // }
-    //     // }
-    //     const queryString = queryParams.join("&");
-    //     navigate(`/main-board?${queryString}`);
-    // }, [navigate, isCheckArr, pagesArr, languagesArr, getServiceNameArr, getClient]);
-    // useEffect(() => {
-    //     updateURL()
-    // }, [updateURL])
+  
     useEffect(() => {
         setFilteredProjectArr(projectArr)
     }, [projectArr, setFilteredProjectArr]);
 
+    // const handleServiceClick = (data: Project) => {
+    //     const queryParams: (string | number)[] = [];
+    //     queryParams.push(`page=${data.totalPages}&lang=${data.totalLanguages}&services=${data.service}&client=${data.clientName}&project=${data.projectName}`);
+    //     const queryString = queryParams.join("&")
+
+    //     navigate(`/service-budget?${queryString}`, { state: { values: [data] } })
+    // }
     const handleServiceClick = (data: Project) => {
-        // event.stopPropagation()
-        navigate("/service-budget", { state: { values: [data] } })
+        const queryParams = new URLSearchParams();
+        queryParams.set('page', data.totalPages.toString());
+        queryParams.set('lang', data.totalLanguages.toString());
+        queryParams.set('services', data.service.join(', '));
+        queryParams.set('client', data.clientName);
+        queryParams.set('project', data.projectName);
+
+        navigate(`/service-budget?${queryParams.toString()}`, { state: { values: [data] } });
     }
     return (
         <>
@@ -63,12 +61,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
                 <Filters handlerSortProjects={handlerSortProjects} handlerResetBtn={handlerResetBtn} handlerSortByDateFilterBtn={handlerSortByDateFilterBtn} handlerInputSearcValue={(e: ChangeEvent<HTMLInputElement>) => handlerInputSearcValue(e)} />
             </div>
             <div className=' mt-2 flex-column project_data_div overflow-y-scroll'
-            // event.stopPropagation()
-
-            // console.log(event.target);
-
-            // console.log("test click");
-            // }}
+        
             >
 
                 {filteredProjectArr.map(data => {

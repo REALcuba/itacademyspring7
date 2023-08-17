@@ -9,8 +9,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
     const [filteredProjectArr, setFilteredProjectArr] = useState<Project[]>(projectArr);
 
     const [searchValue, setSearchValue] = useState<string>('');
-    // console.log(value);
-
 
     const cloneProjectArr = [...filteredProjectArr]
     const handlerInputSearcValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +20,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
     const handlerSortProjects = () => {
 
         cloneProjectArr.sort((projectA, projectB) => projectA.clientName.localeCompare(projectB.clientName))
-        console.log(`test clone`, cloneProjectArr);
         setFilteredProjectArr(cloneProjectArr)
         return cloneProjectArr
     }
@@ -38,34 +35,23 @@ const CreateProject: React.FC<CreateProjectProps> = ({ projectArr}) => {
         setFilteredProjectArr(projectArr)
     }, [projectArr, setFilteredProjectArr]);
 
-    // const handleServiceClick = (data: Project) => {
-    //     const queryParams: (string | number)[] = [];
-    //     queryParams.push(`page=${data.totalPages}&lang=${data.totalLanguages}&services=${data.service}&client=${data.clientName}&project=${data.projectName}`);
-    //     const queryString = queryParams.join("&")
-
-    //     navigate(`/service-budget?${queryString}`, { state: { values: [data] } })
-    // }
     const handleServiceClick = (data: Project) => {
-        const queryParams = new URLSearchParams();
-        queryParams.set('page', data.totalPages.toString());
-        queryParams.set('lang', data.totalLanguages.toString());
-        queryParams.set('services', data.service.join(', '));
-        queryParams.set('client', data.clientName);
-        queryParams.set('project', data.projectName);
+        const queryParams: (string | number)[] = [];
+        queryParams.push(`page=${data.totalPages}&lang=${data.totalLanguages}&services=${data.service}&client=${data.clientName}&project=${data.projectName}`);
+        const queryString = queryParams.join("&")
 
-        navigate(`/service-budget?${queryParams.toString()}`, { state: { values: [data] } });
+        navigate(`/service-budget?${queryString}`, { state: { values: [data] } })
     }
+
     return (
         <>
             <div className='align-items-md-center container-md d-flex justify-content-center gap-2 mt-1'>
                 <Filters handlerSortProjects={handlerSortProjects} handlerResetBtn={handlerResetBtn} handlerSortByDateFilterBtn={handlerSortByDateFilterBtn} handlerInputSearcValue={(e: ChangeEvent<HTMLInputElement>) => handlerInputSearcValue(e)} />
             </div>
-            <div className=' mt-2 flex-column project_data_div overflow-y-scroll'
-        
-            >
+            <div className=' mt-2 flex-column project_data_div overflow-y-scroll'>
 
+                <span className='d-flex justify-content-center'>click project to check it</span>
                 {filteredProjectArr.map(data => {
-
 
                     return <div className='align-items-center border-bottom container justify-content-md-between mt-1 m-0 ps-3 row test-project'
                         key={data.id}

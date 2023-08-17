@@ -1,15 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import Input from "../../components/input/Input";
 import AddPages from "../../components/addPages/AddPages";
 import { UseLocaleStorage } from '../../components/customHooks/UseLocaleStorage'
 import DataInputs from "../../components/dataInputs/DataInputs";
 import CreateProject from "../../components/createProject/CreateProject";
 import { type Project, type MainBoardProps } from "../../components/types/Types";
+import { useNavigate } from "react-router-dom";
 
 
 export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const [total, setTotal] = useState(0)
     const [isCheckArr, setIsCheckArr] = useState(new Array(services.length).fill(false))
     const [isChecked, setIsChecked] = useState(false);
@@ -56,11 +56,9 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
         setLanguagesArr([...updatedLanguagesArr]);
         setIsLocaleLanguagesArr(updatedLanguagesArr);
         setLanguages(updatedLanguagesArr[position]);
-        // }
     };
 
     const handleSubstractPageBtn = (position: number): void => {
-        console.log('resta');
         if (updatedPagesArr[position] > 1) {
             console.log(pages);
             updatedPagesArr[position] = updatedPagesArr[position] - 1;
@@ -71,10 +69,7 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
     }
 
     const handleSubstractLanguageBtn = (position: number): void => {
-        console.log('resta');
         if (updatedLanguagesArr[position] > 1) {
-            // setLanguages(languages - 1);
-            console.log(languages);
             updatedLanguagesArr[position] = updatedLanguagesArr[position] - 1;
             setLanguagesArr([...updatedLanguagesArr]);
             setIsLocaleLanguagesArr(updatedLanguagesArr);
@@ -146,29 +141,23 @@ export const MainBoard: React.FC<MainBoardProps> = ({ services }) => {
 
     }
     // // // Function to update the URL based on the selected inputs
-    // const updateURL = useCallback(() => {
-    //     const queryParams = [];
-    //     for (let i = 0; i < isCheckArr.length; i++) {
-    //         if (isCheckArr[i]) {
-    //             queryParams.push(`page${i + 1}=${pagesArr[i]}&lang${i + 1}=${languagesArr[i]}&services=${getServiceNameArr}&client=${getClient}`);
-    //         }
-    //     }
-    //     const queryString = queryParams.join("&");
-    //     navigate(`/main-board?${queryString}`);
-    // }, [navigate, isCheckArr, pagesArr, languagesArr, getServiceNameArr, getClient]);
-    // useEffect(() => {
-    //     updateURL()
-    // }, [updateURL])
+        const queryParams = [];
+        for (let i = 0; i < isCheckArr.length; i++) {
+            if (isCheckArr[i]) {
+                queryParams.push(`page${i + 1}=${pagesArr[i]}&lang${i + 1}=${languagesArr[i]}&services=${getServiceNameArr}&projectName=${getProjectName}&client=${getClient}`);
+            }
+        }
+        const queryString = queryParams.join("&");
+        
     useEffect(() => {
-        calculateTotal(pagesArr, languagesArr, isCheckArr, services);
-        setPagesArr(isLocalePageArr);
-        setLanguagesArr(isLocaleLanguagesArr);
-        setProjectArr(projectArr);
+        navigate(`/?${queryString}`);
         setIsLocaleProjectArr(isLocaleProjectArr);
-
-
-    }, [pagesArr, languagesArr, isCheckArr, services, isLocalePageArr, isLocaleLanguagesArr, projectArr, setIsLocaleProjectArr, isLocaleProjectArr])
-
+        // const refreshed=[...pagesArr]
+        // setPagesArr(refreshedPageArr);
+        
+            calculateTotal(pagesArr, languagesArr, isCheckArr, services);
+    }, [navigate, queryString])
+    
     return (
         <section className="d-flex gap-md-5 align-items-center fst-italic">
             <form >

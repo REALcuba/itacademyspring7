@@ -27,8 +27,6 @@ const AddPages: React.FC<AddPagesProps> = ({
     handleSubstractLanguageBtn }) => {
     const className = isChecked !== true ? "d-none" : "border border-2 d-grid gap-2 p-4 rounded-2"
 
-    console.log(`valuepage:${valuePages}`);
-
     return (
 
         <div className={className}>

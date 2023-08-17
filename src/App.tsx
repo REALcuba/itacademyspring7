@@ -19,10 +19,10 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         {isLogin ? (
-          <Route path="/main-board" element={<MainBoard services={Services} />} />
+          <Route path="/" element={<MainBoard services={Services} />} />
         ) : ( 
 
-            <Route path="/main-board" element={<Welcome isLogin={isLogin} handleLoginBtn={handleLoginBtn} />} />
+            <Route path="/" element={<Welcome isLogin={isLogin} handleLoginBtn={handleLoginBtn} />} />
 
         )}
         <Route path="/service-budget" element={<ServiceBudgetPage />} />

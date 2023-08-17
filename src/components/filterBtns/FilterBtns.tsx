@@ -9,7 +9,7 @@ const Filters: React.FC<FiltersProps> = ({ handlerSortProjects, handlerResetBtn,
         <button className="btn btn-primary" onClick={handlerSortByDateFilterBtn}>Date</button>
         <button className="btn btn-primary" onClick={handlerSortProjects}>Order</button>
         <button className="btn btn-primary" onClick={handlerResetBtn}>Reset</button>
-        <div className="d-flex align-items-md-center container position-relative">
+        <div className="d-flex align-items-md-center container justify-content-end">
             <input type="text" placeholder="Search..." className="searchInput rounded" onChange={handlerInputSearcValue} />
             {/* <img src={search} alt="" className="w-25" /> */}
         </div> 
